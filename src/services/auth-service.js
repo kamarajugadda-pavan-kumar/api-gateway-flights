@@ -18,11 +18,17 @@ const signUp = async (data) => {
 
 const signIn = async (data) => {
   const user = await new AuthRepository().findUserByEmail(data.emailId);
+  let userRoles = await user.getRoles();
+  userRoles = userRoles.map((role) => role.name);
   const isPasswordValid = await comparePassword(data.password, user.password);
   if (!isPasswordValid) {
     throw new AppError("Invalid credentials", StatusCodes.UNAUTHORIZED);
   }
-  return generateToken({ id: user.id, emailId: user.emailId });
+  return generateToken({
+    id: user.id,
+    emailId: user.emailId,
+    roles: userRoles,
+  });
 };
 
 module.exports = {
