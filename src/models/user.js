@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { encryptPassword } = require("../utils/common/bcrypt");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -30,6 +31,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "User",
+      hooks: {
+        async beforeSave(user) {
+          user.password = encryptPassword(user.password);
+        },
+      },
     }
   );
   return User;
