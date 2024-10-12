@@ -3,7 +3,7 @@ const { User, Airplane, Airport, Sequelize } = require("../models");
 const AppError = require("../utils/errors/app-error");
 const { StatusCodes } = require("http-status-codes");
 
-class UserRepository extends CRUDRepository {
+class AuthRepository extends CRUDRepository {
   constructor() {
     super(User);
   }
@@ -20,4 +20,4 @@ class UserRepository extends CRUDRepository {
     }
   }
 }
-module.exports = FlightRepository;
+module.exports = AuthRepository;

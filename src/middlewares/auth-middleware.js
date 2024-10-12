@@ -14,7 +14,10 @@ const authMiddleware = (req, res, next) => {
 
     next();
   } catch (error) {
-    ErrorResponse.message = error.explanation;
+    ErrorResponse.error = {
+      explanation: error.explanation,
+      details: error.details,
+    };
     res.status(error.statusCode).json(ErrorResponse);
   }
 };

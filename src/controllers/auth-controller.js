@@ -4,7 +4,7 @@ const { AuthService } = require("../services");
 
 const signUp = async (req, res) => {
   try {
-    let data = await FlightService.getFlight(req.params.id);
+    let data = await AuthService.signUp(req.body);
     SuccessResponse.data = data;
     return res.status(StatusCodes.OK).json(SuccessResponse);
   } catch (error) {
@@ -18,7 +18,7 @@ const signUp = async (req, res) => {
 
 const signIn = async (req, res) => {
   try {
-    let data = await FlightService.getFlight(req.params.id);
+    let data = await AuthService.signIn(req.body);
     SuccessResponse.data = data;
     return res.status(StatusCodes.OK).json(SuccessResponse);
   } catch (error) {

@@ -7,14 +7,15 @@ const db = require("../models");
 const { sequelize } = require("../models");
 
 const signUp = async (data) => {
-  const signedUpResponse = await new AuthRepository().signIn(data);
+  const signedUpResponse = await new AuthRepository().signUp(data);
   return signedUpResponse;
 };
 
 const signIn = async (data) => {
-  const updatedFlight = await new AuthRepository().signUp(data);
+  const updatedFlight = await new AuthRepository().signIn(data);
   return updatedFlight;
 };
 module.exports = {
-  updateFlight,
+  signUp,
+  signIn,
 };
