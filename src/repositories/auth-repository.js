@@ -8,6 +8,14 @@ class AuthRepository extends CRUDRepository {
     super(User);
   }
 
+  async findUserByEmail(emailId) {
+    const user = await User.findOne({ where: { emailId: emailId } });
+    if (!user) {
+      throw new AppError("User not found", StatusCodes.NOT_FOUND);
+    }
+    return user;
+  }
+
   async createUser(data) {
     try {
       const user = await this.createResource(data);

@@ -3,18 +3,28 @@ const { StatusCodes } = require("http-status-codes");
 const { AuthRepository } = require("../repositories");
 const AppError = require("../utils/errors/app-error");
 const { isValidISODate } = require("../utils/common/dateTime");
-const db = require("../models");
+const { Role } = require("../models");
 const { sequelize } = require("../models");
+const { roles } = require("../utils/common/enums");
+const { comparePassword } = require("../utils/common/bcrypt");
+const { generateToken } = require("../utils/common/jwt");
 
 const signUp = async (data) => {
-  const signedUpResponse = await new AuthRepository().signUp(data);
-  return signedUpResponse;
+  const user = await new AuthRepository().createUser(data);
+  const role = await Role.findOne({ where: { name: roles.CUSTOMER } });
+  await user.addRole(role);
+  return user;
 };
 
 const signIn = async (data) => {
-  const updatedFlight = await new AuthRepository().signIn(data);
-  return updatedFlight;
+  const user = await new AuthRepository().findUserByEmail(data.emailId);
+  const isPasswordValid = await comparePassword(data.password, user.password);
+  if (!isPasswordValid) {
+    throw new AppError("Invalid credentials", StatusCodes.UNAUTHORIZED);
+  }
+  return generateToken({ id: user.id, emailId: user.emailId });
 };
+
 module.exports = {
   signUp,
   signIn,

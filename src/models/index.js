@@ -43,12 +43,18 @@ if (config.use_env_variable) {
 // });
 
 const User = require("./user")(sequelize, Sequelize.DataTypes);
+const Role = require("./role")(sequelize, Sequelize.DataTypes);
+const User_Role = require("./user_role")(sequelize, Sequelize.DataTypes);
 
 const db = {
   User,
+  Role,
+  User_Role,
 };
 
 db.User.associate(db);
+db.Role.associate(db);
+db.User_Role.associate(db);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

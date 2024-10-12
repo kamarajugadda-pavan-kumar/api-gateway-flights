@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
       hooks: {
         async beforeSave(user) {
-          user.password = encryptPassword(user.password);
+          user.password = await encryptPassword(user.password);
         },
       },
     }
