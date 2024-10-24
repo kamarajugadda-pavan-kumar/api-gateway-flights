@@ -14,4 +14,10 @@ router.post(
   AuthController.signIn
 );
 
+router.get(
+  "/auth/user-profile",
+  [AuthMiddleware.validateJWTMiddleware],
+  AuthController.userProfile
+);
+
 module.exports = router;

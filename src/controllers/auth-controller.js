@@ -22,6 +22,20 @@ const signIn = async (req, res) => {
     SuccessResponse.data = data;
     return res.status(StatusCodes.OK).json(SuccessResponse);
   } catch (error) {
+    console.log(error);
+    ErrorResponse.error = {
+      explanation: error.explanation,
+      details: error.details,
+    };
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+};
+
+const userProfile = async (req, res) => {
+  try {
+    SuccessResponse.data = req.user;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
     ErrorResponse.error = {
       explanation: error.explanation,
       details: error.details,
@@ -33,4 +47,5 @@ const signIn = async (req, res) => {
 module.exports = {
   signUp,
   signIn,
+  userProfile,
 };
