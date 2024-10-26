@@ -14,14 +14,14 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: your-docker-username/api-gateway:latest
+          image: ${{ secrets.DOCKER_USERNAME }}/api-gateway-flight:latest
           envFrom:
             - secretRef:
                 name: api-gateway-secrets
             - configMapRef:
                 name: api-gateway-config
           ports:
-            - containerPort: 80
+            - containerPort: 50000
           resources:
             requests:
               memory: "128Mi"

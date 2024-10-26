@@ -25,10 +25,25 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/api-gateway-flights:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/api-gateway-flights:latest
 
+      - name: Set up KUBECONFIG
+        run: echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+
+      - name: Create Kubernetes Secrets
+        run: |
+          kubectl create secret generic api-gateway-flights-secrets \
+            --from-literal=DB_NAME="${{ secrets.DB_NAME }}" \
+            --from-literal=DB_HOST="${{ secrets.DB_HOST }}" \
+            --from-literal=DB_UN="${{ secrets.DB_UN }}" \
+            --from-literal=DB_PW="${{ secrets.DB_PW }}" \
+            --from-literal=DB_PORT="${{ secrets.DB_PORT }}" \
+            --from-literal=JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+            --from-literal=JWT_EXPIRATION="${{ secrets.JWT_EXPIRATION }}" \
+            --from-literal=DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Deploy to Kubernetes
-        uses: azure/k8s-deploy@v3
-        with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          manifests: |
-            k8s/api-gateway-flights-deployment.yaml
-            k8s/api-gateway-flights-service.yaml
+        run: |
+          kubectl apply -f k8s/api-gateway-flights-config.yaml
+          kubectl apply -f k8s/api-gateway-flights-secret.yaml
+          kubectl apply -f k8s/api-gateway-flights-deployment.yaml
+          kubectl apply -f k8s/api-gateway-flights-service.yaml
