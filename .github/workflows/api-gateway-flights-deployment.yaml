@@ -1,0 +1,34 @@
+name: Deploy api-gateway-flights
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t your-docker-username/api-gateway-flights:latest .
+          docker push your-docker-username/api-gateway-flights:latest
+
+      - name: Deploy to Kubernetes
+        uses: azure/k8s-deploy@v3
+        with:
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          manifests: |
+            k8s/api-gateway-flights-deployment.yaml
+            k8s/api-gateway-flights-service.yaml
