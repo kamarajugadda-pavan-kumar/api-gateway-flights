@@ -17,9 +17,9 @@ spec:
           image: pavankd12/api-gateway-flights:latest
           envFrom:
             - secretRef:
-                name: api-gateway-secrets
+                name: api-gateway-flights-secrets
             - configMapRef:
-                name: api-gateway-config
+                name: api-gateway-flights-config
           ports:
             - containerPort: 50000
           resources:
