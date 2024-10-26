@@ -26,8 +26,9 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/api-gateway-flights:latest
 
       - name: Set up KUBECONFIG
-        run: mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+        run: |
+          mkdir -p $HOME/.kube  # Ensure the .kube directory exists
+          echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config  # Write the KUBECONFIG
 
       - name: Create Kubernetes Secrets
         run: |
