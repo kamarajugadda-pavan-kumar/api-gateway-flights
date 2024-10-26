@@ -52,7 +52,7 @@ jobs:
             --from-literal=DB_PORT="${{ secrets.DB_PORT }}" \
             --from-literal=JWT_SECRET="${{ secrets.JWT_SECRET }}" \
             --from-literal=JWT_EXPIRATION="${{ secrets.JWT_EXPIRATION }}" \
-            --from-literal=DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
+            --from-literal=DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}" \
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Deploy to Kubernetes
