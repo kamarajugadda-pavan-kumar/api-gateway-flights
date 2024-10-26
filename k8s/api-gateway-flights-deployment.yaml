@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: pavankd12/api-gateway-flight:latest
+          image: pavankd12/api-gateway-flights:latest
           envFrom:
             - secretRef:
                 name: api-gateway-secrets
