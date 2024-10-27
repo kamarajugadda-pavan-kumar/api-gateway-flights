@@ -4,6 +4,6 @@ metadata:
   name: api-gateway-flights-config
 data:
   PORT: "50000"
-  FLIGHT_SEARCH_SERVICE: "http://flight-search-service:50001"
-  FLIGHT_BOOKING_SERVICE: "http://flight-booking-service:50002"
-  NOTIFICATION_SERVICE: "http://notification-service:50003"
+  FLIGHT_SEARCH_SERVICE: "http://flight-search-service.default.svc.cluster.local:50001"
+  FLIGHT_BOOKING_SERVICE: http://flight-booking-service.default.svc.cluster.local:50002"
+  NOTIFICATION_SERVICE: "http://notification-service.default.svc.cluster.local:50003"
